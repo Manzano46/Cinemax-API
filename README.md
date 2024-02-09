@@ -42,3 +42,12 @@ y comprar entradas en cualquier momento.
 - El sistema deberá almacenar todos los datos en una base de datos MySQL porque es el q
 ## To Do:  
 - [ ] Cambiar en `appsetings.json` la direccion de la base de datos
+
+
+## To run
+
+En la carpeta ```Cinemax.web```:
+ > ng serve   
+
+En la carpeta ```Cinemax.API```:
+ > dotnet run
