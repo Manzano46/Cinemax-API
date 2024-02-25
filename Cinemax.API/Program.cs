@@ -1,4 +1,5 @@
 using Cinemax.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<AppDbContext>(
+    options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
+);
 
 var app = builder.Build();
 
@@ -18,7 +23,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+/* crear constructores
 var movies = new List<Movie>
 {
     new Movie { Id = 1, Title = "The Shawshank Redemption", Year = 1994, Director = "Frank Darabont" },
@@ -28,5 +33,6 @@ var movies = new List<Movie>
 app.MapGet("/movies", () => movies)
    .WithName("GetMovies")
    .WithOpenApi();
+*/
 
 app.Run();
