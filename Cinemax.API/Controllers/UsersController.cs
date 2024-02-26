@@ -5,7 +5,7 @@ using Cinemax.API.Models;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize] // Requiere que el usuario esté autenticado para acceder a cualquier método de este controlador
+// [Authorize] // Requiere que el usuario esté autenticado para acceder a cualquier método de este controlador
 public class UsersController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -17,7 +17,7 @@ public class UsersController : ControllerBase
 
     // GET: api/Users
     [HttpGet]
-    [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden listar todos los usuarios
+    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden listar todos los usuarios
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
         return await _context.Users.Include(u => u.RoleUsers)
@@ -45,7 +45,7 @@ public class UsersController : ControllerBase
 
     // POST: api/Users
     [HttpPost]
-    [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden crear usuarios
+    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden crear usuarios
     public async Task<ActionResult<User>> PostUser(User user)
     {
         _context.Users.Add(user);
@@ -56,7 +56,7 @@ public class UsersController : ControllerBase
 
     // PUT: api/Users/5
     [HttpPut("{userId}")]
-    [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden actualizar usuarios
+    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden actualizar usuarios
     public async Task<IActionResult> PutUser(int userId, User user)
     {
         if (userId != user.UserId)
@@ -87,7 +87,7 @@ public class UsersController : ControllerBase
 
     // DELETE: api/Users/5
     [HttpDelete("{userId}")]
-    [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden eliminar usuarios
+    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden eliminar usuarios
     public async Task<IActionResult> DeleteUser(int userId)
     {
         var user = await _context.Users.FindAsync(userId);

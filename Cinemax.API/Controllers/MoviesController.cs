@@ -37,7 +37,7 @@ public class MoviesController : ControllerBase
 
     // POST: api/Movies
     [HttpPost]
-    [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden crear películas
+    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden crear películas
     public async Task<ActionResult<Movie>> PostMovie(Movie movie)
     {
         _context.Movies.Add(movie);
@@ -48,7 +48,7 @@ public class MoviesController : ControllerBase
 
     // PUT: api/Movies/5
     [HttpPut("{movieId}")]
-    [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden actualizar películas
+    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden actualizar películas
     public async Task<IActionResult> PutMovie(int movieId, Movie movie)
     {
         if (movieId != movie.MovieId)
@@ -79,7 +79,7 @@ public class MoviesController : ControllerBase
 
     // DELETE: api/Movies/5
     [HttpDelete("{movieId}")]
-    [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden eliminar películas
+    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden eliminar películas
     public async Task<IActionResult> DeleteMovie(int movieId)
     {
         var movie = await _context.Movies.FindAsync(movieId);
