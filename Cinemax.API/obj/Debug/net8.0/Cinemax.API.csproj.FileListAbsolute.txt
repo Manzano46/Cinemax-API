@@ -242,3 +242,4 @@ D:\Working Currently\Cinemax-API\Cinemax.API\obj\Debug\net8.0\refint\Cinemax.API
 D:\Working Currently\Cinemax-API\Cinemax.API\obj\Debug\net8.0\Cinemax.API.pdb
 D:\Working Currently\Cinemax-API\Cinemax.API\obj\Debug\net8.0\Cinemax.API.genruntimeconfig.cache
 D:\Working Currently\Cinemax-API\Cinemax.API\obj\Debug\net8.0\ref\Cinemax.API.dll
+D:\Working Currently\Cinemax-API\Cinemax.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

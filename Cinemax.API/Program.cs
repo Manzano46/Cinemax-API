@@ -1,7 +1,30 @@
 using Cinemax.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            // Configura aquí tus parámetros de validación del token
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("wtfuncinewaos")),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+        };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("User", policy => policy.RequireRole("User"));
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -14,6 +37,10 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -23,7 +50,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting(); 
-app.UseAuthorization(); // Añade esta línea para habilitar la autorización (necesario si vas a usar [Authorize])
 app.MapControllers(); 
 
 app.Run();
