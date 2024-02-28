@@ -1,5 +1,7 @@
 public class CardUser
 {
+   public int CardUserId {get; set;}
+ 
     public int CardId {get; set;}
     public int UserId {get; set;}
     public virtual Card Card {get; set;}
