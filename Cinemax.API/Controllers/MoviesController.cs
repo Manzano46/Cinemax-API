@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Cinemax.API.Models;
+using Microsoft.AspNetCore.JsonPatch;
+// using Cinemax.API.Models;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -45,21 +46,35 @@ public class MoviesController : ControllerBase
 
         return CreatedAtAction(nameof(GetMovie), new { movieId = movie.MovieId }, movie);
     }
-
-    // PUT: api/Movies/5
-    [HttpPut("{movieId}")]
-    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden actualizar películas
-    public async Task<IActionResult> PutMovie(int movieId, Movie movie)
+    
+    // PATCH: api/Movies/5
+    [HttpPatch("{movieId}")]
+    public async Task<IActionResult> PatchMovie(int movieId, [FromBody] JsonPatchDocument<Movie> patchDoc)
     {
-        if (movieId != movie.MovieId)
+        if (patchDoc == null)
         {
             return BadRequest();
         }
 
-        _context.Entry(movie).State = EntityState.Modified;
+        var movie = await _context.Movies.FindAsync(movieId);
+        if (movie == null)
+        {
+            return NotFound();
+        }
+
+        patchDoc.ApplyTo(movie, (err) => 
+        {
+            ModelState.AddModelError(err.Operation.path, err.ErrorMessage);
+        });
+
+        if (!ModelState.IsValid)
+        {
+            return new BadRequestObjectResult(ModelState);
+        }
 
         try
         {
+            _context.Entry(movie).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
@@ -77,20 +92,5 @@ public class MoviesController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/Movies/5
-    [HttpDelete("{movieId}")]
-    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden eliminar películas
-    public async Task<IActionResult> DeleteMovie(int movieId)
-    {
-        var movie = await _context.Movies.FindAsync(movieId);
-        if (movie == null)
-        {
-            return NotFound();
-        }
-
-        _context.Movies.Remove(movie);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
+   
 }

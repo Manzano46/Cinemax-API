@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Cinemax.API.Models;
+using Microsoft.AspNetCore.JsonPatch;
 
 [Route("api/[controller]")]
 [ApiController]
-// [Authorize] // Requiere que el usuario esté autenticado para acceder a cualquier método de este controlador
 public class UsersController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -17,23 +15,16 @@ public class UsersController : ControllerBase
 
     // GET: api/Users
     [HttpGet]
-    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden listar todos los usuarios
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
-        return await _context.Users.Include(u => u.RoleUsers)
-                                   .Include(u => u.CardUsers)
-                                   .Include(u => u.Tickets)
-                                   .ToListAsync();
+        return await _context.Users.ToListAsync();
     }
 
     // GET: api/Users/5
-    [HttpGet("{userId}")]
-    public async Task<ActionResult<User>> GetUser(int userId)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<User>> GetUser(int id)
     {
-        var user = await _context.Users.Include(u => u.RoleUsers)
-                                        .Include(u => u.CardUsers)
-                                        .Include(u => u.Tickets)
-                                        .FirstOrDefaultAsync(u => u.UserId == userId);
+        var user = await _context.Users.FindAsync(id);
 
         if (user == null)
         {
@@ -45,23 +36,37 @@ public class UsersController : ControllerBase
 
     // POST: api/Users
     [HttpPost]
-    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden crear usuarios
     public async Task<ActionResult<User>> PostUser(User user)
     {
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetUser), new { userId = user.UserId }, user);
+        return CreatedAtAction(nameof(GetUser), new { id = user.UserId }, user);
     }
 
-    // PUT: api/Users/5
-    [HttpPut("{userId}")]
-    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden actualizar usuarios
-    public async Task<IActionResult> PutUser(int userId, User user)
+    
+    // PATCH: api/Users/5
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchUser(int id, [FromBody] JsonPatchDocument<User> patchDoc)
     {
-        if (userId != user.UserId)
+        if (patchDoc == null)
         {
             return BadRequest();
+        }
+
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        patchDoc.ApplyTo(user, (err) => 
+        {
+            ModelState.AddModelError(err.Operation.path, err.ErrorMessage);
+        });
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
         _context.Entry(user).State = EntityState.Modified;
@@ -72,7 +77,7 @@ public class UsersController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!_context.Users.Any(e => e.UserId == userId))
+            if (!_context.Users.Any(e => e.UserId == id))
             {
                 return NotFound();
             }
@@ -81,23 +86,6 @@ public class UsersController : ControllerBase
                 throw;
             }
         }
-
-        return NoContent();
-    }
-
-    // DELETE: api/Users/5
-    [HttpDelete("{userId}")]
-    // [Authorize(Roles = "Admin")] // Solo los usuarios con el rol de "Admin" pueden eliminar usuarios
-    public async Task<IActionResult> DeleteUser(int userId)
-    {
-        var user = await _context.Users.FindAsync(userId);
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
 
         return NoContent();
     }
