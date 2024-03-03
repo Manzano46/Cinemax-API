@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5Xukq4ISM+2vixeJMf4z0oDuZ+35X/iGEg9bMOtSuDwHSi+LfCK48AugNdll40GMjLyji8oUicVokWkk49ukpA==",
+  "dgSpecHash": "aqhY3VCE8yNBVVSOz60qiPPq94IG5IeOYdI1u2ysnvmmlnNeQsMzUB0olvjJfN4qTWB6jXJOdZyP2ii4Z5CDzQ==",
   "success": true,
-  "projectFilePath": "D:\\Working Currently\\Cinemax-API\\Cinemax.API\\Cinemax.API.csproj",
+  "projectFilePath": "D:\\Working Currently\\Cinemax\\Cinemax-API\\Cinemax.API\\Cinemax.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\leona\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\leona\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

@@ -4681,11 +4681,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Working Currently\\Cinemax-API\\Cinemax.API\\Cinemax.API.csproj",
+      "projectUniqueName": "D:\\Working Currently\\Cinemax\\Cinemax-API\\Cinemax.API\\Cinemax.API.csproj",
       "projectName": "Cinemax.API",
-      "projectPath": "D:\\Working Currently\\Cinemax-API\\Cinemax.API\\Cinemax.API.csproj",
+      "projectPath": "D:\\Working Currently\\Cinemax\\Cinemax-API\\Cinemax.API\\Cinemax.API.csproj",
       "packagesPath": "C:\\Users\\leona\\.nuget\\packages\\",
-      "outputPath": "D:\\Working Currently\\Cinemax-API\\Cinemax.API\\obj\\",
+      "outputPath": "D:\\Working Currently\\Cinemax\\Cinemax-API\\Cinemax.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
