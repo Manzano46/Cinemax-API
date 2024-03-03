@@ -1,5 +1,6 @@
-
-public class Projection
+namespace Cinemax.API.Models
+{
+    public class Projection
     {
         public int ProjectionId {get; set;}
         public DateTime DateTime {get; set;}
@@ -11,3 +12,4 @@ public class Projection
         public virtual Movie? Movie {get; set;}
         public virtual ICollection<Ticket>? Tickets {get; set;}
     }
+}

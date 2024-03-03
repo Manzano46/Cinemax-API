@@ -1,6 +1,9 @@
-public class Actor
+namespace Cinemax.API.Models
 {
-    public int ActorId {get; set;}
-    public string Name {get; set;}    
-    public virtual ICollection<MovieActor>? MovieActors { get; set; }
+    public class Actor
+    {
+        public int ActorId {get; set;}
+        public string Name {get; set;}    
+        public virtual ICollection<MovieActor>? MovieActors { get; set; }
+    }
 }

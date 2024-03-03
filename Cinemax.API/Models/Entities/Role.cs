@@ -1,6 +1,9 @@
-public class Role
+namespace Cinemax.API.Models
 {
-    public int RoleId {get; set;}
-    public string Name {get; set;}
-    public virtual ICollection<RoleUser> RoleUsers { get; set;}
+    public class Role
+    {
+        public int RoleId {get; set;}
+        public string Name {get; set;}
+        public virtual ICollection<RoleUser> RoleUsers { get; set;}
+    }
 }

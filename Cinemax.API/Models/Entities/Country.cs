@@ -1,6 +1,9 @@
-public class Country
+namespace Cinemax.API.Models
 {
-    public int CountryId {get; set;}
-    public string Name {get; set;}   
-    public virtual ICollection<MovieCountry> MovieCountries { get; set; } 
+    public class Country
+    {
+        public int CountryId {get; set;}
+        public string Name {get; set;}   
+        public virtual ICollection<MovieCountry> MovieCountries { get; set; } 
+    }
 }

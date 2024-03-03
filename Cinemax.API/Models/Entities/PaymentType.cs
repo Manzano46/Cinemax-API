@@ -1,6 +1,9 @@
-public class PaymentType
+namespace Cinemax.API.Models
 {
-    public int PaymentTypeId {get; set;}
-    public string Name {get; set;}
-    public virtual ICollection<Ticket> Tickets {get; set;}
+    public class PaymentType
+    {
+        public int PaymentTypeId {get; set;}
+        public string Name {get; set;}
+        public virtual ICollection<Ticket> Tickets {get; set;}
+    }
 }
