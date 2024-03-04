@@ -49,7 +49,50 @@ namespace Cinemax.API.Controllers
             return CreatedAtAction(nameof(GetMovie), new { movieId = movie.MovieId }, movie);
         }
         
+        // DELETE: api/Movies/5
+        [HttpDelete("{movieId}")]
+        public async Task<ActionResult<Movie>> DeleteMovie(int movieId)
+        {
+            var movie = await _context.Movies.FindAsync(movieId);
+            if (movie == null)
+            {
+                return NotFound();
+            }
 
-    
+            _context.Movies.Remove(movie);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // PATCH: api/Movies/5
+        [HttpPatch("{movieId}")]
+        public async Task<ActionResult<Movie>> PatchMovie(int movieId, [FromBody] JsonPatchDocument<Movie> patchDocument)
+        {
+            var movie = await _context.Movies.FindAsync(movieId);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            patchDocument.ApplyTo(movie);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) when (!MovieExists(movieId))
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        private bool MovieExists(int movieId)
+        {
+            return _context.Movies.Any(e => e.MovieId == movieId);
+        }
+
     }
 }
